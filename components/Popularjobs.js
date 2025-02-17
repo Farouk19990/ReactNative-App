@@ -6,11 +6,16 @@ import {COLORS, SIZES} from '../constants';
 import styles from './popularjobs.style';
 import { ActivityIndicator, FlatList } from 'react-native';
 import PopularJobsCard from './PopularJobsCard';
+import useFetch from '../hook/useFetch';
 
 const Popularjobs = () =>{
     const router = useRouter();
-    const isLoading=false;
-    const error=false;
+    const {data,isLoading,error}=useFetch('search',{
+        query:'React developer',
+        num_pages:1
+    });
+
+    console.log("HEY ========> ",data)
 
     return (
         <View style={styles.container}>
@@ -31,11 +36,12 @@ const Popularjobs = () =>{
                         </Text>
                     ):(
                         <FlatList  
-                        data={[1,2,3,4,5,6]}
+                        data={data}
                         renderItem={({item})=>(
                             <PopularJobsCard
                              item={item}
-                            />
+
+                            />                            
                         )}
                         keyExtractor={item=>item?.job_id}
                         contentContainerStyle={{
